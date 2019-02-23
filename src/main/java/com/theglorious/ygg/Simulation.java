@@ -7,22 +7,31 @@ package com.theglorious.ygg;
 
 public class Simulation implements Solution{
 
-    private final int simulationRounds = 10000;
+    private int simulationRounds = 10000;
+    
+    public Simulation(int rounds){
+	simulationRounds = rounds;
+    }
+    
+    public void setRounds(int rounds){
+	simulationRounds = rounds;
+    }
     
     @Override
     public int solve(Boxes boxes) {
+	long startTime = System.nanoTime();
 	int totalReward = 0;
 	
 	for(int i=0; i<simulationRounds; i++){
-	    int lifes = 0;
+	    int oneups = 0;
 	    while(true){
 		int content = boxes.openBox();
 		if(content>=0){
 		    totalReward+=content;
 		}
 		else if(content==-2){
-		    if(lifes>0){
-			lifes--;
+		    if(oneups>0){
+			oneups--;
 		    }
 		    else{
 			int extraReward = boxes.openExtraBox();
@@ -36,11 +45,12 @@ public class Simulation implements Solution{
 		    }
 		}
 		else{
-		    lifes+=1;
+		    oneups+=1;
 		}
 	    }
 	}
 	
+	System.out.println("Simulation finished in "+((System.nanoTime()-startTime)/1000000000.)+"ns");
 	return totalReward/simulationRounds;
     }
 }

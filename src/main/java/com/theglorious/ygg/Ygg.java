@@ -7,7 +7,7 @@ package com.theglorious.ygg;
 
 public class Ygg {
     public static void main(String[] args){
-	Solution sol = new Simulation();
+	Solution sol = new Simulation(10000);
 	System.out.println("Simulated reward per round: "+sol.solve(new Boxes()));
 	
 	sol = new Calculation();
