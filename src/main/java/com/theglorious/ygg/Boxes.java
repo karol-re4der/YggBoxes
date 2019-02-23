@@ -1,11 +1,7 @@
 package com.theglorious.ygg;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import static javafx.scene.input.KeyCode.T;
-import javafx.util.Pair;
 
 /**
  *
@@ -22,9 +18,13 @@ public class Boxes {
 	opened = new LinkedList<>();
 	extra = new LinkedList<>();
 	reset();
+	shuffle();
     }
     
     public void reset(){
+	closed.clear();
+	opened.clear();
+	extra.clear();
 	closed.add(100);
 	closed.add(20);
 	closed.add(20);
@@ -37,20 +37,37 @@ public class Boxes {
 	extra.add(10);
 	extra.add(20);
 	extra.add(-3); //reshuffle
-	
-	shuffle();
     }
     
-    private void shuffle(){
+    public void shuffle(){
 	closed.addAll(opened);
 	opened.clear();
 	Collections.shuffle(closed);
+	Collections.shuffle(extra);
     }
     
     public int openBox(){
 	opened.add(closed.getLast()); //if there is an exception, then the set of boxes is not valid
 	closed.removeLast();
 	return opened.getLast();
+    }
+    
+    public int openBox(int i){
+	opened.add(closed.get(i));
+	closed.remove(i);
+	return opened.getLast();
+    }
+    
+    public LinkedList<Integer> getOpened(){
+	return opened;
+    }
+    
+    public LinkedList<Integer> getClosed(){
+	return closed;
+    }
+    
+    public LinkedList<Integer> getExtra(){
+	return extra;
     }
     
     public int openExtraBox(){

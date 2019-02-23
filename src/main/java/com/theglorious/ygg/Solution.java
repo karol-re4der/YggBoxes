@@ -1,11 +1,8 @@
 package com.theglorious.ygg;
 
-import java.util.ArrayList;
-import javafx.util.Pair;
-
 /**
  *
- * @author re4der
+ * @author Karol "re4der" Kozak
  */
 
 public interface Solution {

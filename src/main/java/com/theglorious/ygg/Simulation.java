@@ -1,8 +1,5 @@
 package com.theglorious.ygg;
 
-import java.util.ArrayList;
-import javafx.util.Pair;
-
 /**
  *
  * @author Karol "re4der" Kozak
@@ -32,6 +29,7 @@ public class Simulation implements Solution{
 			if(extraReward>=0){
 			    totalReward+=extraReward;
 			    boxes.reset();
+			    boxes.shuffle();
 			    System.out.println("Round "+i+" simulated.");
 			    break;
 			}
