@@ -2,8 +2,11 @@ package com.theglorious.ygg;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 
 /**
  *
@@ -11,72 +14,84 @@ import java.util.List;
  */
 
 public class Boxes {
-    private final LinkedList<Integer> closed;
-    private final LinkedList<Integer> opened;
-    private final LinkedList<Integer> extra;
+    private Random rand;
+    private final LinkedHashMap<Integer, Integer> template;
+    private final LinkedHashMap<Integer, Integer> closed;
+    private final LinkedHashMap<Integer, Integer> extra;
     
     public Boxes(){
-	closed = new LinkedList<>();
-	opened = new LinkedList<>();
-	extra = new LinkedList<>();
+	rand = new Random();
+	rand.setSeed(System.currentTimeMillis());
+	
+	template = new LinkedHashMap<>();
+	closed = new LinkedHashMap<>();
+	extra = new LinkedHashMap<>();
+	
+	template.put(100, 1);
+	template.put(20, 2);
+	template.put(5, 5);
+	template.put(-1, 1); //extra life
+	template.put(-2, 3); //game over
+	
+	extra.put(5, 1);
+	extra.put(10, 1);
+	extra.put(20, 1);
+	extra.put(-3, 1); //reshuffle
+	
 	reset();
-	shuffle();
     }
     
     public void reset(){
-	closed.clear();
-	opened.clear();
-	extra.clear();
-	closed.add(100);
-	closed.add(20);
-	closed.add(20);
-	for(int i = 0; i<5; i++)
-	    closed.add(5);
-	closed.add(-1); //extra life
-	for(int i = 0; i<3; i++)
-	    closed.add(-2); //game over
-	extra.add(5);
-	extra.add(10);
-	extra.add(20);
-	extra.add(-3); //reshuffle
+	closed.putAll(template);
+	extra.keySet().forEach((k)->extra.put(k, 1));
     }
     
-    public void shuffle(){
-	closed.addAll(opened);
-	opened.clear();
-	Collections.shuffle(closed);
-	Collections.shuffle(extra);
+    public void reshuffle(){
+	closed.putAll(template);
     }
     
-    public int openBox(){
-	opened.add(closed.getLast()); //if there is an exception, then the set of boxes is not valid
-	closed.removeLast();
-	return opened.getLast();
+    public int randomBox(){
+	int index = 0;
+	int size = 0;
+	int content = 0;
+	for(int i:closed.values()){
+	    size+=i;
+	}
+	index = rand.nextInt(size);
+	int pointer = 0;
+	for(Entry e:closed.entrySet()){
+	    pointer+=(int)e.getValue();
+	    if(pointer>index){
+		content = (int)e.getKey();
+		break;
+	    }
+	}
+	closed.put(content, closed.get(content)-1);
+	
+	return content;
     }
-    
-    public int openBox(int i){
-	opened.add(closed.get(i));
-	closed.remove(i);
-	return opened.getLast();
-    }
-    
-    public LinkedList<Integer> getOpened(){
-	return opened;
-    }
-    
-    public LinkedList<Integer> getClosed(){
+
+    public LinkedHashMap<Integer, Integer> getClosed(){
 	return closed;
     }
     
-    public LinkedList<Integer> getExtra(){
+    public LinkedHashMap<Integer, Integer> getExtra(){
 	return extra;
     }
     
     public int openExtraBox(){
-	int content = extra.pop();
+	int index = 0;
+	do{
+	    index = rand.nextInt(extra.size());
+	} while((int)extra.values().toArray()[index]==0);
+	
+	int content = (int)extra.keySet().toArray()[index];
+	extra.put(content, 0);
+	
 	if(content<0){
-	    shuffle();
+	    reshuffle();
 	}
+	
 	return content;
     }
     

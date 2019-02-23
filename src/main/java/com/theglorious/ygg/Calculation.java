@@ -25,16 +25,16 @@ public class Calculation implements Solution{
 	globalDeaths = 0;
 	globalOneups = 0;
 	avgWin = 0;
-	boxes.getClosed().forEach((k)->{
+	boxes.getClosed().forEach((k, v)->{
 	    if(k>=0){
-		globalWins++;
-		avgWin+=k;
+		globalWins+=v;
+		avgWin+=k*v;
 	    }
 	    else if(k==-2){
-		globalDeaths++;
+		globalDeaths+=v;
 	    }
 	    else{
-		globalOneups++;
+		globalOneups+=v;
 	    }
 	});
 	avgWin/=globalWins;
@@ -49,7 +49,7 @@ public class Calculation implements Solution{
 	result+=(1./boxes.getExtra().size())*result;
 	
 	//extra reward
-	boxes.getExtra().forEach((k)->{
+	boxes.getExtra().forEach((k, v)->{
 	    if(k>=0){
 		result+=(double)k*(1./(boxes.getExtra().size()-1));
 	    }

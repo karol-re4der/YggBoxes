@@ -25,7 +25,7 @@ public class Simulation implements Solution{
 	for(int i=0; i<simulationRounds; i++){
 	    int oneups = 0;
 	    while(true){
-		int content = boxes.openBox();
+		int content = boxes.randomBox();
 		if(content>=0){
 		    totalReward+=content;
 		}
@@ -38,8 +38,7 @@ public class Simulation implements Solution{
 			if(extraReward>=0){
 			    totalReward+=extraReward;
 			    boxes.reset();
-			    boxes.shuffle();
-			    System.out.println("Round "+i+" simulated.");
+			    //System.out.println("Round "+i+" simulated.");
 			    break;
 			}
 		    }
