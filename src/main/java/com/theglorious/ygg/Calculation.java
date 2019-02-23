@@ -45,7 +45,7 @@ public class Calculation implements Solution{
 	//summ the cases
 	cases.forEach((k)->result+=k);
 	
-	//extra try (a little assumption here that there is just one of each extra box reward, just like in the task received).
+	//extra try
 	result+=(1./boxes.getExtra().size())*result;
 	
 	//extra reward

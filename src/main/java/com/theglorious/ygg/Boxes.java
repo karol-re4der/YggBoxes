@@ -40,6 +40,14 @@ public class Boxes {
 	
 	reset();
     }
+
+    public LinkedHashMap<Integer, Integer> getClosed(){
+	return closed;
+    }
+    
+    public LinkedHashMap<Integer, Integer> getExtra(){
+	return extra;
+    }
     
     public void reset(){
 	closed.putAll(template);
@@ -51,13 +59,12 @@ public class Boxes {
     }
     
     public int randomBox(){
-	int index = 0;
 	int size = 0;
 	int content = 0;
 	for(int i:closed.values()){
 	    size+=i;
 	}
-	index = rand.nextInt(size);
+	int index = rand.nextInt(size);
 	int pointer = 0;
 	for(Entry e:closed.entrySet()){
 	    pointer+=(int)e.getValue();
@@ -69,14 +76,6 @@ public class Boxes {
 	closed.put(content, closed.get(content)-1);
 	
 	return content;
-    }
-
-    public LinkedHashMap<Integer, Integer> getClosed(){
-	return closed;
-    }
-    
-    public LinkedHashMap<Integer, Integer> getExtra(){
-	return extra;
     }
     
     public int openExtraBox(){

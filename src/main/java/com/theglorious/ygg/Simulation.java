@@ -49,7 +49,7 @@ public class Simulation implements Solution{
 	    }
 	}
 	
-	System.out.println("Simulation finished in "+((System.nanoTime()-startTime)/1000000000.)+"ns");
+	System.out.println("Simulation finished in aprox. "+((System.nanoTime()-startTime)/1000000000.)+"ns");
 	return totalReward/simulationRounds;
     }
 }
